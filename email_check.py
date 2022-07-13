@@ -9,7 +9,7 @@ ws = wb['data']
 
 
 imap_url = 'imap.gmail.com'
-email_address = 
+email_address = input('Enter your email: ')
 email_password = input('Enter your password: ')
 
 imap = imaplib.IMAP4_SSL(imap_url)
