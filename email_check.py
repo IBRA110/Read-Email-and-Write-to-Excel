@@ -9,8 +9,8 @@ ws = wb['data']
 
 
 imap_url = 'imap.gmail.com'
-email_address = input('Enter your email: ')
-email_password = input('Enter your password: ')
+email_address =  input('Enter your email: ')
+email_password =  input('Enter your password: ')
 
 imap = imaplib.IMAP4_SSL(imap_url)
 imap.login(email_address, email_password)
@@ -18,8 +18,6 @@ imap.login(email_address, email_password)
 imap.select('Inbox')
 
 _, msgnums = imap.search(None, "ALL")
-
-index = 1
 
 for msg in msgnums[0].split():
     _, data = imap.fetch(msg, "(RFC822)")
@@ -36,10 +34,18 @@ for msg in msgnums[0].split():
     print("Content:")
     for part in message.walk():
         if part.get_content_type() == 'text/plain':
-            print(part.as_string())
-            ws[f"A{index}"] = part.as_string()
-            wb.save(fn)
-            index += 1
+            text = part.get_payload(decode=True).decode()
+            
+            text = text.split('\n')
+            for i in range(len(text)):
+                text[i] = text[i].split(' ')
+            
+            print(text[0][-2])
+            for i in range(3, len(text[3:11])):
+                print(text[i][2:])
+
+                
+
 
 imap.close()
 wb.close()
